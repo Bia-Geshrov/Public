@@ -1,0 +1,70 @@
+#!/bin/bash
+
+function main() {
+touch pa.html
+
+echo "$@"
+
+if [[ -z "$2" ]]
+then	json="./videos.json"
+else	json="$2"
+fi
+html="pa.html"
+
+url=$(echo "$1" | grep -oP "http.*")
+
+
+if [[ -z "$url" ]]
+then	printf "\033[31mURL IS EMPTY\033[m $@"
+exit 1
+fi
+
+if [ ! -f "$json" ]; then
+curl -s -L "$1/shorts" -o "$html"
+else
+printf "\033[31mERR.\033[m File already exists at storage path
+\033[33m$json\033[m
+"
+exit 0
+fi
+
+
+cat pa.html | grep -oP '"continuationCommand":{"token":"\K.*?(?=")' | awk 'NR==1 {print $1}' > token.txt
+grep -o 'INNERTUBE_API_KEY":"[^"]*' "$html" | cut -d'"' -f3 > key.txt
+grep -o 'INNERTUBE_CONTEXT_CLIENT_VERSION":"[^"]*' "$html" | cut -d'"' -f3 > version.txt
+
+API_KEY=$(cat key.txt)
+VERSION=$(cat version.txt)
+TOKEN=$(cat token.txt)
+
+echo "$API_KEY, $VERSION, $TOKEN"
+
+while [[ -n "$TOKEN" ]]; do
+    echo "Fetching next page…"
+
+    RESPONSE=$(curl -s \
+      "https://www.youtube.com/youtubei/v1/browse?key=$API_KEY?prettyPrint=false" \
+      -H "Content-Type: application/json" \
+      -d "{
+        \"context\": {
+          \"client\": {
+            \"clientName\": \"WEB\",
+            \"clientVersion\": \"$VERSION\"
+          }
+        },
+        \"continuation\": \"$TOKEN\"
+      }")
+
+    # Save videos
+    echo "$RESPONSE" >> "$json"
+
+    # Extract next continuation token
+    TOKEN=$(echo "$RESPONSE" | grep -oP '"token": "\K.*?(?=")' | awk 'NR==1 {print $1}')
+
+    echo "Next token: $TOKEN"
+done
+}
+
+main "$1" "$2" "$3" "/shorts"
+main "$1" "$2" "$3" "/videos"
+echo "Done!"

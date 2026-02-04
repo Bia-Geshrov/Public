@@ -1,0 +1,99 @@
+#!/bin/bash
+
+function poll() {
+fil="$1"
+
+n=1
+e=$(wc -l < "$fil")
+printf "press L to cycle forwards, A to cycle backwards or M to download all thumbnails, (expensive on storage).\n"
+while [[ "$n" != "$e" ]];do
+echo "← (A)   (G) ↓   (T) Open  (L) →"
+var=$(cat "$fil" | awk -v nr="$n" -v nt="$((n+1))" 'NR==nr || NR==nt {print}')
+vimg=$(echo "$var" | grep -oP "http[A-Za-z0-9:/.\-_?=]+" | awk 'NR==1 {print}')
+vurl=$(echo "$var" | grep -oP "shorts[A-Za-z0-9:/.\-_?=]+")
+vurl=$(echo "http://www.youtube.com/$vurl")
+v2rl=$(echo "$var" | grep -oP "watch[A-Za-z0-9:/.\-_?=]+")
+v2rl=$(echo "http://www.youtube.com/$v2rl")
+tits=$(echo "$var" | awk 'NR==2 {print}')
+printf "Thumbnail: $vimg
+
+Title: $tits
+
+
+Video Link Version 1: $vurl
+		   2: $v2rl
+$n of $e"
+read -n 1 -s nav
+case "$nav" in
+l)n=$((n+2));;
+a)if ! ((n<2)); then	n=$((n-2));fi;;
+g)
+curl "$vimg" -sLo /sdcard/..~tmp.preview.png
+
+#am start -n com.google.android.apps.nbu.files/com.google.android.apps.nbu.files.home.HomeActivity -f 0x10200000
+
+image "/sdcard/..~tmp.preview.png" gfil
+
+echo "press any key to continue or G again to open the image in browser..."
+read -n 1 -s nav
+if [ "$nav" = "g" ]; then
+am start -a android.intent.action.VIEW -d "$vimg" com.android.chrome
+fi
+;;
+
+t)
+am start -a android.intent.action.VIEW -d "$v2rl" com.android.chrome
+;;
+
+m)
+printf "Enter a directory location (Blank for /sdcard/Pictures/Thumbnails)"
+
+read dir
+if [ -z "$dir" ];then
+dldr=TRUE
+dldrpt="/sdcard/Pictures/Thumbnails"
+mkdir "$dldrpt"
+elif [[ ! -d "$dir" && -d "$(dirname "$dir")" ]];then
+mkdir "$dir"
+dldr=TRUE
+dldrpt="$dir"
+elif [[ ! -d "$(dirname "$dir")" ]];then
+printf "\033[m..ERR.\033[m Path does not exist\n"
+dldr=FALSE
+fi
+
+n=1
+e=$(wc -l "$fil")
+if [ "$dldr" = TRUE ];then
+while [[ "$n" != "$e" ]];do
+printf "Downloading Thumbnail $n/$e ("
+filsave="$dldrpt/$(date +%d%m%y%H%M%S%3N).png"
+printf "$filsave | $(echo $vimg | head -c 10)"
+var=$(cat "$fil" | awk -v nr="$n" -v nt="$((n+1))" 'NR==nr || NR==nt {print}')
+vimg=$(echo "$var" | grep -oP "http[A-Za-z0-9:/.\-_?=]+" | awk 'NR==1 {print}')
+curl "$vimg" -sL -o "$filsave"
+n=$((n+2))
+printf "\033[32mDone.\033[m\n"
+done
+fi
+;;
+esac
+clear
+done
+}
+
+case "$@" in
+-i)
+input=$(echo "$@" | grep -oP "-i (.*?)")
+echo "$input"
+;;
+*)
+if [ -f "$1" ]
+then	input="$1"
+fi
+;;
+esac
+
+if [ -f "$input" ]
+then	clear;poll "$input"
+fi

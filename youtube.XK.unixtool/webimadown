@@ -1,0 +1,43 @@
+#!/bin/bash
+C_real="$1"
+webim=$(curl -ksL $C_real |grep -oP "<img.*?>"|grep -oP 'src="\K.*?"'|tr -d '"')
+if [ -z "$webim" ];then
+echo "No raw images on webpage"
+webim=$(curl -ksL $C_real |grep -oP "<video.*?>"|grep -oP 'src="\K.*?"'|tr -d '"')
+fi
+
+if [ -z "$webim" ];then
+echo "No raw video on webpage"
+webim=$(curl -ksL $C_real |grep -oP "<div.*?>"|grep -oP 'url(\K.*?)'|tr -d ')')
+fi
+
+if [ -z "$webim" ];then
+echo "No raw image div on webpage"
+curl -ksL $C_real
+fi
+
+for u in $webim;do
+mkdir "$HOME/Desktop/Downloaded Web Images/" >/dev/null 2>/dev/null
+printf "Downloading "
+if [ -z $(echo -n "$u"|grep 'http') ];then
+echo "no base"
+if [ -n $(echo -n "$u"|head -c 2|grep './') ];then
+C_rt=$(echo -n "${C_real%%*/}")
+C_rt=$(echo -n "${C_real%%\?*}")
+b=$(echo -n "$u"|sed 's|^\./||')
+b="${C_rt}/${b}"
+elif [ -n $(echo -n "$u"|head -c 2|grep '/') ];then
+C_rt=$(echo -n "${C_real%*/}")
+C_rt=$(echo -n "${C_real%%\?*}")
+b="${C_rt}${b}"
+fi
+else
+b="$u"
+printf " Valid url: "
+fi
+#lmao
+#b="${C_rt}/${b}"
+echo "$b..."
+printf "$b\n"
+curl -kL "$b" -o "$HOME/Desktop/Downloaded Web Images/$(echo $u|grep -oP "/.*?."|sed 's/\///g')"
+done

@@ -1,0 +1,416 @@
+#!/bin/bash
+trap "rm -fv ./.~dnth;printf '\nCleaned up before exit\n';exit 0" SIGINT
+dnth=0
+dnsi=0
+#case $@ in
+#-d)dnth=1;printf "Will download Subchannel Icons for conditional flag '-d'.\n";;
+#esac
+
+while getopts "di" op; do
+case "$op" in
+d)dnth=1;printf "Will download Subchannel Icons for conditional flag '-d'.\n";;
+i)dnsi=1;printf "Subchannel referred url websites' images will be saved\n";;
+esac
+done
+
+if [ $dnth = 1 ];then
+touch ./.~dnth
+else
+rm -f ./.~dnth
+echo "No var set."
+fi
+
+if [[ -z "$1" ]]
+then	echo "Usage: [filename]"
+exit 0
+fi
+
+dat=$(date +%y%m%d%H%M%S)
+
+if [[ $(echo -n "$2" | grep -oP "http") == "http" ]]
+then	printf "Starting download...1"
+	curl -L -s "$2" > cif"$dat"
+	printf "...2"
+	curl -L -s "${2}/about" > cif"$dat"ab && printf "Success.\n"
+	fil="cif$dat"
+	fab="cif${dat}ab"
+else	fil="$2"
+	fab="${2}ab"
+fi
+
+echo "cif$dat"
+
+if [[ ! -f "$fil" ]]
+then	printf "\033[31mFile Does not Exist.\033[m\n"
+exit 0
+fi
+
+cif1="$fab"
+cif2="$fil"
+
+varbuilder=$(cat "$cif2" | grep -oP "\"simpleText\":\".*?\"")
+varhref=$(cat "$cif2" | grep -oP "href=\".*?\"")
+
+imi=$(cat "$cif2" | grep -oP '"avatar":{"thumbnails":\[{"url":"https://yt3.googleusercontent.com/.*?"' | grep -oP 'http.*?"' | sed 's/"//g')
+
+imb=$(cat "$cif2" | grep -oP '"banner":{"imageBannerViewModel":{"image":{"sources":\[{"url":".*?"' |
+ sed 's/=.*//' | sed 's/"banner":{"imageBannerViewModel":{"image":{"sources":\[{"url":"//')
+
+varabout=$(cat "$cif1" | \
+grep -oP '\{[^{}]*\{[^{}]*\{"content"\K[^{}]*"' | \
+sed 's/://g' | sed 's/ /%20/g' | sed 's/,/ /g' | awk '{print $1}' | \
+sed 's/%20/ /g' | sed 's/"//g')
+
+case "$@" in
+	s)	sil="1";printf "yes";;
+	nh)	hr="0";;
+	nj)	js="0";;
+esac
+
+echo "'$@' caught: $sil, $hr, $js"
+
+if [[ "$js" != 0 ]]; then
+buff=""
+#echo "Channel Description JSON:"
+#printf "{desc:{"
+while IFS= read -r l; do
+if [[ "$buff" == "$l" ]]
+then	printf ","
+fi
+buff="${l%\"}"
+buff=$(printf "$buff" | sed 's/"simpleText":"//')
+dscs+="$buff, "
+#printf "$buff"
+done <<< "$varbuilder"
+printf "}\n"
+fi
+
+buff=""
+echo "Channel Description Pretty Print:"
+printf "Description:\n	"
+delay_names=3
+while IFS= read -r l; do
+if [[ "$buff" == "$l" ]]
+then    printf ","
+fi
+buff="${l%\"}"
+buff=$(echo "$buff" | sed 's/"simpleText":"//')
+dscas+="$buff,"
+if [[ $delay_names == 0 ]];then
+	printf "\033[01;32m"
+else	printf "\033[00m"
+fi
+printf "$buff ... ND=($delay_names)\n"
+if [[ $(echo -n "$buff"|grep -oP "subscribers") == "subscribers" ]];then
+	delay_names=1
+fi
+delay_names=$((delay_names-1))
+done <<< "$varbuilder"
+printf "\n"
+printf "\n------------------------------------------------------------------------------\n\n"
+
+echo "CHANNEL NAMES"
+CHAN_NAMES=$(cat $cif2|grep -oP '@.*?"'|grep -vP "<"|grep -vP "@.null"|grep -vP "@300"|grep -vP '\\'|grep -vP '/'|grep -vP '@YouTube'|grep -vP '@youtube'|sed 's/"//g')
+CH_nam=''
+for na in $CHAN_NAMES; do
+if [[ $(echo -n "$CH_nam"|grep -oP "$na") != "$na" ]];then
+CH_nam+="$na "
+fi
+#testing output
+#printf "$CH_nam"
+done
+
+printf "$CH_nam"
+
+function C_HERUNTERLADEN() {
+dab="$2.cnames"
+if [[ $(printf "$1" | grep -oP "http") == "http" ]]
+then    printf "Starting download...1"
+        curl -L -s "$1" > cif"$dab"
+        printf "...2"
+        curl -L -s "${1}/about" > cif"$dab"ab && printf "Success.\n"
+        fil1="cif$dab"
+        fab1="cif${dab}ab"
+else    fil1="$1"
+        fab1="${1}ab"
+fi
+echo -n "$fil1 $fab1" > ./.~tmpushg
+echo "./.~tmpushg:"
+cat ./.~tmpushg
+echo
+echo "--------------------------"
+}
+CN_len=$(echo -n "$CH_nam"|wc -w)
+echo "AMNT=$CN_len"
+if ((CN_len>20));then
+printf "$CH_nam\n"
+printf "There are too many results in the above array ($CN_len), proceed anyway? [y/N] "
+read -n 1 proceed_anyway
+echo ""
+fi
+if ((CN_len<20)) || [[ "$proceed_anyway" == y ]];then
+for na in $CH_nam; do
+printf "$na\n"
+C_HERUNTERLADEN "http://youtube.com/$na" $dat
+fil1=$(cat ./.~tmpushg|awk '{print $1}')
+fab1=$(cat ./.~tmpushg|awk '{print $2}')
+rm -fv ./.~tmpushg
+cif3=$fil1
+cif11=$fab1
+echo "Description for channel $na"
+
+varbuilder1=$(cat "$cif3" | grep -oP "\"simpleText\":\".*?\"")
+while IFS= read -r l; do
+if [[ "$buff" == "$l" ]]
+then    printf ","
+fi
+buff="${l%\"}"
+buff=$(echo "$buff" | sed 's/"simpleText":"//')
+dscas+="$buff,"
+if [[ $delay_names == 0 ]];then
+        printf "\033[01;32m"
+else    printf "\033[00m"
+fi
+printf "$buff ... ND=($delay_names)\n"
+if [[ $(echo -n "$buff"|grep -oP "subscribers") == "subscribers" ]];then
+        delay_names=1
+fi
+delay_names=$((delay_names-1))
+done <<< "$varbuilder1"
+
+imi1=$(cat "$cif3" | grep -oP '"avatar":{"thumbnails":\[{"url":"https://yt3.googleusercontent.com/.*?"' | grep -oP 'http.*?"' | sed 's/"//g')
+printf "Rendering channel Icon with CATIMG..."
+curl -s $imi1 -o ./.~tmpimg
+dev_rws=$(tput lines)
+dev_col=$(tput cols)
+echo
+catimg -w $((dev_col/2)) ./.~tmpimg
+#echo "catimg ./.~tmpimg"
+if [ $dnth = 1 ];then
+printf "Saving Icon..."
+mkdir "$HOME/Desktop/Downloaded Icons/" >/dev/null 2>/dev/null
+cp ./.~tmpimg "$HOME/Desktop/Downloaded Icons/$na-icon.png"
+fi
+rm -f ./.~tmpimg && printf "\033[32mOK\033[m\n"
+imb1=$(cat "$cif3" | grep -oP '"banner":{"imageBannerViewModel":{"image":{"sources":\[{"url":".*?"' |
+ sed 's/=.*//' | sed 's/"banner":{"imageBannerViewModel":{"image":{"sources":\[{"url":"//')
+
+if [ -n "$imb1" ];then
+curl -s $imb1 -o ./.~tmpimg
+dev_rws=$(tput lines)
+dev_col=$(tput cols)
+catimg -w $((dev_col/2)) ./.~tmpimg
+if [ $dnth = 1 ];then
+printf "Saving Banner...\n"
+mkdir "$HOME/Desktop/Downloaded\ Icons/"
+cp ./.~tmpimg "$HOME/Desktop/Downloaded\ Icons/$na-banner.png"
+fi
+rm -fv ./.~tmpimg
+fi
+
+varabout1=$(cat "$cif11" | \
+grep -oP '\{[^{}]*\{[^{}]*\{"content"\K[^{}]*"' | \
+sed 's/://g' | sed 's/ /%20/g' | sed 's/,/ /g' | awk '{print $1}' | \
+sed 's/%20/ /g' | sed 's/"//g')
+
+echo "About $na:
+$varabout1"
+printf "Attached Links/Referrals on the channel:\n"
+C_N_ref=$(cat $cif11 | grep -oP '"link":{"content":"\K.*?"'|sed 's/"//g')
+echo "$C_N_ref"
+
+rf=''
+for rf in $C_N_ref;do
+if [ -n "$rf" ];then
+
+[[ "$rf" != http* ]] && rf="http://$rf"
+
+C_real=$(curl --max-redirs 10 -IksLA "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36" "$rf" |\
+grep 'ocation:'| awk '{print $2}'|tail -n1|tr -d '\r')
+
+printf "\033[01;33m[ URL ]\033[00m $rf -> $C_real\n"
+webim=$(curl -ksL $C_real |grep -oP "<img.*?>"|grep -oP 'src="\K.*?"'|tr -d '"')
+if [ -z "$webim" ];then
+echo "No raw images on webpage"
+fi
+
+for u in $webim;do
+mkdir "$HOME/Desktop/Downloaded Web Images/" >/dev/null 2>/dev/null
+printf "Downloading "
+if [ -z $(echo -n "$u"|grep 'http') ];then
+echo "no base"
+
+# Example: C_rt="http://website.me/content/index.html"
+C_rt="$C_real"
+ROOT=$(echo "$C_rt" | cut -d'/' -f1-3)
+
+DIR="${C_rt%/*}/"
+
+if [[ $u == /* ]]; then
+    # Case 1: Starts with / (Root Relative)
+    # Strip the leading slash and prepend the ROOT
+    fixed_url="${ROOT}${u}"
+
+elif [[ $u == ./* ]]; then
+    # Case 2: Starts with ./ (Current Directory)
+    # Strip the "./" and prepend the DIR
+    fixed_url="${DIR}${u#./}"
+
+else
+    # Case 3: Standard relative (image.jpg)
+    fixed_url="${DIR}${u}"
+fi
+b="$fixed_url"
+echo "Fixed URL: $fixed_url"
+
+#if [[ "$u" = ./* ]];then
+#C_rt=$(echo -n "${C_real%%*/}")
+#C_rt=$(echo -n "${C_real%%\?*}")
+#b=$(echo -n "$u"|sed 's|^\./||')
+#b="${C_rt}/${b}"
+#elif [ -n $(echo -n "$u"|head -c 2|grep '/') ];then
+#C_rt=$(echo -n "${C_real%*/}")
+#C_rt=$(echo -n "${C_real%%\?*}")
+#b="${C_rt}${b}"
+#fi
+else
+b="$u"
+printf " Valid url: "
+fi
+#lmao
+#b="${C_rt}/${b}"
+#echo "$b..."
+printf "$b..."
+if [ "$dnsi" = 1 ]; then {
+curl -skL "$b" -o "$HOME/Desktop/Downloaded Web Images/$(echo $u|grep -oP "/.*?."|sed 's/\///g')" && echo "DONE"
+} else {
+printf "Will not be downloaded [no -si] flag\n"
+}; fi
+done
+
+else	printf "[ PROBLEM ] No url\n"
+fi
+done
+
+echo
+echo "##################################"
+done
+else
+echo "Too many results. $CH_nam"
+fi
+printf "\n"
+printf "\n------------------------------------------------------------------------------\n\n"
+
+echo "HREF URLS"
+if [[ "$hr" != 0 ]]; then
+while IFS= read -r l; do
+if [[ "$buff" == "$l" ]]
+then    printf ","
+fi
+buff="${l%\"}"
+buff="${buff#href=\"}"
+buff=$(echo -n "$buff" | sed 's/"simpleText":"//')
+buff=$(echo -n "$buff" | sed 's/ //g')
+hres+="$buff, "
+echo -ne "\r$buff"
+buf=$(echo -n "$buff"|wc -c)
+cls=$(tput cols)
+csl=$((cls-buf))
+#printf "		$buf - $cls = $csl"
+for r in $(seq 1 1 $csl);do
+printf " "
+done
+
+varabout1=$(cat "$cif1" | \
+grep -oP '\{[^{}]*\{[^{}]*\{"content"\K[^{}]*"' | \
+sed 's/://g' | sed 's/ /%20/g' | sed 's/,/ /g' | awk '{print $1}' | \
+sed 's/%20/ /g' | sed 's/"//g')
+
+done <<< "$varhref"
+printf "\n"
+printf "\n------------------------------------------------------------------------------\n\n"
+fi
+
+
+videos=$(echo "$hres" | \
+	grep -oP "https://www.youtube.com/feeds/videos.xml.*?(?=,|\s|$)" | \
+	sed 's/[,\s]*$//')
+echo "Videos Location:$videos"
+printf "Channel Icon: 	$imi\n"
+printf "Channel Banner: $imb\n"
+
+
+
+cname=$(echo "$videos" | grep -oP "_id=\K.*")
+mkdir ~/vidsxml
+mkdir ~/vidsxml/"$cname"
+xmlpt="$HOME/vidsxml/$cname/videos.xml"
+if [[ ! -f "$xmlpt" ]];then
+touch "$xmlpt"
+curl -L -s "$videos" -o "$xmlpt"
+fi
+
+echo
+printf "About this channel:
+$varabout
+"
+cpth="$HOME/vidsxml/$cname"
+#echo "videos: "
+#v1=$(cat "$xmlpt"|grep -oP "<title>\K.*?(?=</)")
+#v1am$(wc -l "$v1")
+#for n in $(seq 0 1 "$v1am")
+#do	echo "Titles: $(echo $v1|awk '{print NR $n}')"
+#done
+
+echo "videos:"
+
+jsonpt="$HOME/vidsxml/$cname/videos.json"
+echo "$jsonpt"
+bash ~/ytsh "https://www.youtube.com/channel/$cname" "$jsonpt"
+
+#printf "filling variable..."
+#vjson=$(cat "$jsonpt")
+#printf "\033[32mdone.\033[m
+#"
+# Read titles into an array
+#mapfile -t v1 < <(grep -oP "<title>\K.*?(?=</)" "$xmlpt")
+#mapfile -t d1 < <(grep -oP "description>\K.*?(?=</)" "$xmlpt")
+#mapfile -t vurl < <(grep -oP "content>\K.*?(?=</)" "$xmlpt")
+# Count titles
+#v1am=${#v1[@]}
+
+# Loop through titles
+#for n in $(seq 0 $((v1am - 1))); do
+#    echo "Video $((n+1)): ${v1[n]} ${d1[n]} ${vurl[n]}"
+#done
+
+if [ ! -f "${cpth}/videos.dzindex" ]; then
+urls=$(
+    cat "$jsonpt" |
+    grep -oP '"url": ".*?"' |
+    sed 's/"url": "//; s/"$//' |
+    grep -v 'https://rr[0-9]'
+)
+
+meta=$(
+    cat "$jsonpt" |
+    grep -A6 "overlayMetadata" |
+    sed 's/[{}"]//g' |
+    sed 's/overlayMetadata://g' |
+    sed 's/.*Text://g' |
+    grep -oP "content:.*" |
+    sed 's/content: //'
+)
+
+
+paste -d '\n' <(echo "$urls" | paste - - - -) \
+              <(echo "$meta" | paste - -) \
+> "${cpth}/videos.dzindex"
+else
+dzin="${cpth}/videos.dzindex"
+fi
+echo "$dzin"
+echo "Paused ... press any key to continue ..."
+read -n 1 -s
+bash ./ytl "$dzin"
+
