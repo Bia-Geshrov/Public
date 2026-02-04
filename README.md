@@ -1,7 +1,6 @@
 # MAIN
 This Repository is a public archive of a NetHunter's work.<br>
 "If it's viewable in the browser or the internet, then there's a way to download it"<br>
-
 # Public
 This Directory is a host for Generic PDF Samples of Practice questions for CSEC. It hosts multiple generic PDF samples that have been used to practice Mathematics Skills before attempting the official CSEC tests. It may also contain some generic NetHunter scripts for Advaned Web surfing.
 # youtube.XK.unixtool
