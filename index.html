@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows Vista - Navigation Redirect</title>
-    <!-- Tailwind CSS for utility styling -->
+    <title>Server Provisioning</title>
+    <!-- Tailwind CSS for modern layout utilities -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome for classic Windows-like icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         /* ==========================================================================
@@ -42,8 +40,8 @@
             inset: 0;
             z-index: 0;
             background:
-                radial-gradient(circle at 10% 20%, rgba(2, 172, 230, 0.85) 0%, transparent 45%),
-                radial-gradient(circle at 85% 80%, rgba(0, 220, 130, 0.75) 0%, transparent 50%),
+                radial-gradient(circle at 15% 25%, rgba(2, 172, 230, 0.85) 0%, transparent 45%),
+                radial-gradient(circle at 85% 75%, rgba(0, 220, 130, 0.75) 0%, transparent 50%),
                 radial-gradient(circle at 50% 50%, rgba(13, 80, 180, 0.9) 0%, transparent 65%),
                 linear-gradient(135deg, #021e38 0%, #063968 35%, #0d607a 65%, #052c1e 100%);
             background-size: 200% 200%;
@@ -75,7 +73,7 @@
             animation: floatRibbon2 16s ease-in-out infinite alternate;
         }
 
-        /* Reflective Floor Reflection Grid/Shelf Effect */
+        /* Reflective Floor Effect */
         .reflective-floor {
             position: absolute;
             bottom: 0;
@@ -91,50 +89,50 @@
         }
 
         /* ==========================================================================
-           ULTRA AERO GLASS PANE
+           GENERIC AERO GLASS POPUP PANE
            ========================================================================== */
 
         .aero-window {
             position: relative;
             z-index: 10;
-            width: 92%;
-            max-width: 580px;
+            width: 90%;
+            max-width: 490px;
             background: linear-gradient(
                 135deg,
-                rgba(255, 255, 255, 0.42) 0%,
-                rgba(210, 235, 255, 0.22) 25%,
-                rgba(150, 200, 240, 0.15) 50%,
-                rgba(255, 255, 255, 0.28) 100%
+                rgba(255, 255, 255, 0.45) 0%,
+                rgba(210, 235, 255, 0.25) 25%,
+                rgba(150, 200, 240, 0.18) 50%,
+                rgba(255, 255, 255, 0.3) 100%
             );
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.65);
+            border-radius: 9px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
             outline: 1px solid rgba(0, 0, 0, 0.35);
             box-shadow:
-                0 0 0 1px rgba(255, 255, 255, 0.4) inset,
+                0 0 0 1px rgba(255, 255, 255, 0.45) inset,
                 0 25px 60px rgba(0, 10, 30, 0.65),
                 0 10px 20px rgba(0, 0, 0, 0.4),
                 0 0 35px rgba(0, 180, 255, 0.35);
-            backdrop-filter: blur(28px) saturate(210%);
-            -webkit-backdrop-filter: blur(28px) saturate(210%);
+            backdrop-filter: blur(30px) saturate(210%);
+            -webkit-backdrop-filter: blur(30px) saturate(210%);
             overflow: hidden;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            transition: transform 0.1s ease-out;
         }
 
-        /* Multi-layered Glass Reflection Overlay Across Titlebar and Pane */
+        /* Multi-layered Glass Reflection Overlay Across Pane */
         .aero-window::before {
             content: '';
             position: absolute;
             top: 0;
             left: -50%;
             width: 200%;
-            height: 55%;
+            height: 50%;
             background: linear-gradient(
                 165deg,
-                rgba(255, 255, 255, 0.55) 0%,
+                rgba(255, 255, 255, 0.6) 0%,
                 rgba(255, 255, 255, 0.25) 30%,
                 rgba(255, 255, 255, 0.0) 50%
             );
-            transform: rotate(-5deg);
+            transform: rotate(-4deg);
             pointer-events: none;
             z-index: 12;
         }
@@ -143,25 +141,25 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at top left, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            background: radial-gradient(ellipse at top left, rgba(255, 255, 255, 0.35) 0%, transparent 70%);
             pointer-events: none;
             z-index: 11;
         }
 
-        /* Window Titlebar Header */
+        /* Generic Window Titlebar Header (No Branding) */
         .aero-titlebar {
-            height: 38px;
+            height: 34px;
             padding: 0 10px 0 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.35);
             background: linear-gradient(
                 to bottom,
-                rgba(255, 255, 255, 0.5) 0%,
-                rgba(230, 245, 255, 0.25) 48%,
-                rgba(170, 210, 240, 0.15) 49%,
-                rgba(220, 240, 255, 0.35) 100%
+                rgba(255, 255, 255, 0.55) 0%,
+                rgba(230, 245, 255, 0.3) 48%,
+                rgba(170, 210, 240, 0.2) 49%,
+                rgba(220, 240, 255, 0.4) 100%
             );
             position: relative;
             z-index: 15;
@@ -176,12 +174,9 @@
                 0 0 12px rgba(0, 130, 255, 0.6),
                 1px 1px 2px rgba(0, 0, 0, 0.8);
             letter-spacing: 0.3px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
-        /* Glass Windows Window Control Buttons */
+        /* Window Control Buttons */
         .window-controls {
             display: flex;
             align-items: center;
@@ -189,8 +184,8 @@
         }
 
         .win-btn {
-            width: 28px;
-            height: 19px;
+            width: 26px;
+            height: 18px;
             border-radius: 3px;
             border: 1px solid rgba(255, 255, 255, 0.6);
             display: flex;
@@ -199,14 +194,9 @@
             font-size: 9px;
             color: #ffffff;
             text-shadow: 0 1px 2px rgba(0,0,0,0.7);
-            cursor: pointer;
             box-shadow: 0 1px 3px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.7);
-            transition: all 0.15s ease;
             position: relative;
             overflow: hidden;
-        }
-
-        .win-btn-min, .win-btn-max {
             background: linear-gradient(
                 to bottom,
                 rgba(220, 235, 250, 0.8) 0%,
@@ -214,17 +204,6 @@
                 rgba(120, 160, 200, 0.6) 46%,
                 rgba(190, 220, 245, 0.8) 100%
             );
-        }
-
-        .win-btn-min:hover, .win-btn-max:hover {
-            background: linear-gradient(
-                to bottom,
-                rgba(255, 255, 255, 0.9) 0%,
-                rgba(190, 225, 255, 0.7) 45%,
-                rgba(140, 190, 240, 0.8) 46%,
-                rgba(220, 245, 255, 0.9) 100%
-            );
-            box-shadow: 0 0 8px rgba(0, 160, 255, 0.8);
         }
 
         .win-btn-close {
@@ -238,173 +217,62 @@
             border-color: rgba(255, 200, 200, 0.8);
         }
 
-        .win-btn-close:hover {
-            background: linear-gradient(
-                to bottom,
-                rgba(255, 190, 180, 0.95) 0%,
-                rgba(250, 60, 50, 0.85) 45%,
-                rgba(220, 10, 0, 0.9) 46%,
-                rgba(255, 140, 130, 0.95) 100%
-            );
-            box-shadow: 0 0 10px rgba(255, 50, 50, 0.8);
-        }
-
         /* Window Content Inner Body */
         .aero-body {
-            padding: 24px 28px;
+            padding: 26px 28px 28px;
             background: linear-gradient(
                 to bottom,
-                rgba(255, 255, 255, 0.75) 0%,
-                rgba(240, 248, 255, 0.65) 50%,
-                rgba(225, 238, 250, 0.75) 100%
+                rgba(255, 255, 255, 0.82) 0%,
+                rgba(240, 248, 255, 0.72) 50%,
+                rgba(225, 238, 250, 0.8) 100%
             );
             position: relative;
             z-index: 15;
-            border-top: 1px solid rgba(255, 255, 255, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.85);
             box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.9);
         }
 
-        /* Windows Vista Orb Icon Holder */
-        .vista-orb {
-            width: 58px;
-            height: 58px;
+        /* AERO RADIAL LOADING SPINNER */
+        .aero-spinner {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: radial-gradient(circle at 35% 25%, #ffffff 0%, #43b1f5 25%, #085da2 65%, #022046 100%);
-            border: 2px solid rgba(255, 255, 255, 0.9);
-            box-shadow:
-                0 0 0 1px rgba(0, 0, 0, 0.4),
-                0 4px 12px rgba(0, 0, 0, 0.35),
-                0 0 18px rgba(0, 160, 255, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
             position: relative;
-            overflow: hidden;
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(0, 120, 215, 0.3);
             flex-shrink: 0;
         }
 
-        /* Orb Gloss Overlay */
-        .vista-orb::before {
+        .aero-spinner::before {
             content: '';
             position: absolute;
-            top: 2px;
-            left: 5px;
-            right: 5px;
-            height: 24px;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.1) 100%);
-            border-radius: 50% 50% 40% 40%;
+            inset: 0;
+            border-radius: 50%;
+            border: 4px solid rgba(0, 120, 215, 0.15);
         }
 
-        /* Vista Windows Four Color Flag SVG inside Orb */
-        .vista-flag {
-            width: 26px;
-            height: 26px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2px;
-            transform: rotate(-4deg) skewX(-4deg);
-            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
-            position: relative;
-            z-index: 2;
-        }
-
-        .flag-pane {
-            border-radius: 1px 3px 1px 3px;
-            box-shadow: inset 0 1px 1px rgba(255,255,255,0.6);
-        }
-        .flag-red { background: linear-gradient(135deg, #ff6b52, #e02000); }
-        .flag-green { background: linear-gradient(135deg, #8ae639, #4cb000); }
-        .flag-blue { background: linear-gradient(135deg, #3cb0f5, #0066cc); }
-        .flag-yellow { background: linear-gradient(135deg, #ffdc42, #e69d00); }
-
-        /* ABSOLUTE GRADIENT AERO BUTTONS */
-        .aero-btn {
-            background: linear-gradient(
-                to bottom,
-                rgba(255, 255, 255, 0.95) 0%,
-                rgba(235, 243, 253, 0.85) 48%,
-                rgba(195, 218, 242, 0.9) 49%,
-                rgba(220, 236, 252, 0.95) 100%
-            );
-            border: 1px solid #707070;
-            border-radius: 3px;
-            padding: 6px 18px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #1e395b;
-            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-            box-shadow:
-                0 0 0 1px rgba(255, 255, 255, 0.8) inset,
-                0 1px 3px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            transition: all 0.15s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            outline: none;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .aero-btn::after {
+        .aero-spinner::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.1) 100%);
-            pointer-events: none;
-        }
-
-        .aero-btn:hover {
-            border-color: #3c7fb1;
-            box-shadow:
-                0 0 0 1px rgba(255, 255, 255, 0.9) inset,
-                0 0 8px rgba(60, 127, 177, 0.6),
-                0 1px 3px rgba(0, 0, 0, 0.2);
-            background: linear-gradient(
-                to bottom,
-                rgba(255, 255, 255, 1) 0%,
-                rgba(240, 247, 255, 0.9) 48%,
-                rgba(210, 232, 255, 0.95) 49%,
-                rgba(230, 244, 255, 1) 100%
-            );
-            color: #000000;
-        }
-
-        .aero-btn:active {
-            background: linear-gradient(
-                to bottom,
-                rgba(200, 220, 240, 0.9) 0%,
-                rgba(170, 200, 230, 0.9) 100%
-            );
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
-            transform: translateY(1px);
-        }
-
-        .aero-btn-primary {
-            border-color: #2c628b;
-            background: linear-gradient(
-                to bottom,
-                rgba(235, 247, 255, 0.95) 0%,
-                rgba(180, 225, 255, 0.9) 48%,
-                rgba(110, 185, 240, 0.95) 49%,
-                rgba(160, 215, 255, 1) 100%
-            );
+            inset: 0;
+            border-radius: 50%;
+            border: 4px solid transparent;
+            border-top-color: #0088ff;
+            border-right-color: #28b010;
+            filter: drop-shadow(0 0 6px rgba(0, 150, 255, 0.8));
+            animation: aeroSpin 0.9s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite;
         }
 
         /* HIGH-GLOSS VISTA PROGRESS BAR */
         .aero-progress-track {
-            height: 20px;
+            height: 22px;
             background: linear-gradient(
                 to bottom,
-                rgba(180, 180, 180, 0.7) 0%,
-                rgba(220, 220, 220, 0.8) 30%,
+                rgba(170, 170, 170, 0.7) 0%,
+                rgba(215, 215, 215, 0.8) 30%,
                 rgba(245, 245, 245, 0.9) 100%
             );
-            border: 1px solid #686868;
+            border: 1px solid #606060;
             border-radius: 3px;
             padding: 1px;
             box-shadow:
@@ -426,9 +294,9 @@
                 #7ce85d 100%
             );
             box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.8),
-                0 0 8px rgba(50, 205, 50, 0.6);
-            transition: width 0.1s linear;
+                inset 0 1px 0 rgba(255, 255, 255, 0.85),
+                0 0 10px rgba(50, 205, 50, 0.7);
+            transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
             overflow: hidden;
         }
@@ -440,91 +308,24 @@
             inset: 0;
             background-image: linear-gradient(
                 -45deg,
-                rgba(255, 255, 255, 0.4) 25%,
+                rgba(255, 255, 255, 0.45) 25%,
                 transparent 25%,
                 transparent 50%,
-                rgba(255, 255, 255, 0.4) 50%,
-                rgba(255, 255, 255, 0.4) 75%,
+                rgba(255, 255, 255, 0.45) 50%,
+                rgba(255, 255, 255, 0.45) 75%,
                 transparent 75%,
                 transparent
             );
             background-size: 24px 24px;
-            animation: moveStripes 1s linear infinite;
-        }
-
-        /* Glass Pill Badges */
-        .glass-pill {
-            background: linear-gradient(
-                135deg,
-                rgba(255, 255, 255, 0.6) 0%,
-                rgba(200, 225, 250, 0.3) 100%
-            );
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            border-radius: 12px;
-            padding: 2px 10px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #0c4373;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255,255,255,0.8);
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        /* Bottom Taskbar Nostalgia Element */
-        .vista-taskbar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 38px;
-            background: linear-gradient(
-                to bottom,
-                rgba(10, 25, 45, 0.8) 0%,
-                rgba(2, 10, 20, 0.85) 50%,
-                rgba(0, 0, 0, 0.9) 100%
-            );
-            border-top: 1px solid rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 12px;
-            z-index: 20;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
-        }
-
-        .taskbar-orb-start {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 35% 25%, #ffffff 0%, #3ca0e6 30%, #054b88 70%, #011228 100%);
-            border: 1.5px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 8px rgba(0, 150, 255, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin-top: -6px;
-            transition: all 0.2s;
-        }
-
-        .taskbar-orb-start:hover {
-            box-shadow: 0 0 15px rgba(0, 190, 255, 1);
-            transform: scale(1.05);
-        }
-
-        .tray-clock {
-            color: #ffffff;
-            font-size: 11px;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            animation: moveStripes 0.8s linear infinite;
         }
 
         /* Animations */
+        @keyframes aeroSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         @keyframes auroraGlow {
             0% { background-position: 0% 0%; }
             50% { background-position: 100% 100%; }
@@ -545,29 +346,6 @@
             0% { background-position: 0 0; }
             100% { background-position: 24px 0; }
         }
-
-        .pulsing-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #28b010;
-            border-radius: 50%;
-            box-shadow: 0 0 6px #28b010;
-            animation: pulse 1.2s infinite alternate;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.4; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1.2); }
-        }
-
-        /* URL Text Box Box Shadow */
-        .url-box {
-            background: rgba(255, 255, 255, 0.85);
-            border: 1px solid #7f9db9;
-            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2);
-            border-radius: 2px;
-            font-family: 'Consolas', 'Courier New', monospace;
-        }
     </style>
 </head>
 <body>
@@ -578,246 +356,145 @@
         <div class="aurora-ribbon-2"></div>
     </div>
 
-    <!-- Reflective Shelf Ground Effect -->
+    <!-- Reflective Floor Effect -->
     <div class="reflective-floor"></div>
 
-    <!-- Main Windows Vista Aero Glass Dialogue Window -->
+    <!-- Main Aero Glass Dialogue Window -->
     <div class="aero-window" id="windowPane">
 
         <!-- Window Titlebar -->
         <div class="aero-titlebar">
             <div class="window-title">
-                <i class="fa-solid fa-compass text-sky-200"></i>
-                <span>Windows Internet Navigation - Redirection</span>
+                System Dialog
             </div>
             <div class="window-controls">
-                <button class="win-btn win-btn-min" title="Minimize"><i class="fa-solid fa-minus"></i></button>
-                <button class="win-btn win-btn-max" title="Maximize"><i class="fa-solid fa-square"></i></button>
-                <button class="win-btn win-btn-close" id="closeBtn" title="Close"><i class="fa-solid fa-xmark"></i></button>
+                <div class="win-btn"><span style="margin-bottom: 5px;">-</span></div>
+                <div class="win-btn"><span style="margin-bottom: 1px;">□</span></div>
+                <div class="win-btn win-btn-close">✕</div>
             </div>
         </div>
 
         <!-- Window Inner Body Content -->
         <div class="aero-body">
 
-            <div class="flex items-start space-x-4 mb-5">
-                <!-- Glowing Vista Orb Logo -->
-                <div class="vista-orb">
-                    <div class="vista-flag">
-                        <div class="flag-pane flag-red"></div>
-                        <div class="flag-pane flag-green"></div>
-                        <div class="flag-pane flag-blue"></div>
-                        <div class="flag-pane flag-yellow"></div>
-                    </div>
-                </div>
+            <div class="flex items-center space-x-4 mb-6">
+                <!-- Radial Aero Spinner -->
+                <div class="aero-spinner"></div>
 
-                <div class="flex-1">
-                    <div class="flex items-center justify-between mb-1">
-                        <h2 class="text-lg font-bold text-slate-800 tracking-tight leading-tight">Navigating to Remote Location</h2>
-                        <span class="glass-pill">
-                            <span class="pulsing-dot" id="statusDot"></span>
-                            <span id="statusBadge">Active</span>
-                        </span>
-                    </div>
-                    <p class="text-xs text-slate-600 leading-relaxed">
-                        Windows is preparing to transfer your browser session to the target address configured below. Please wait while the connection establishes.
+                <div>
+                    <h2 class="text-base font-semibold text-slate-900 tracking-tight leading-tight">
+                        spinning up your ephemeral server
+                    </h2>
+                    <p class="text-xs text-slate-600 mt-1" id="subtextMessage">
+                        Initializing secure runtime environment...
                     </p>
                 </div>
             </div>
 
-            <!-- Target URL Display Box -->
-            <div class="mb-5 p-2.5 url-box flex items-center justify-between text-xs text-slate-700">
-                <div class="flex items-center space-x-2 truncate pr-2">
-                    <i class="fa-solid fa-globe text-sky-600"></i>
-                    <span class="font-semibold text-slate-500">Destination:</span>
-                    <a id="targetUrlDisplay" href="#" class="font-mono text-blue-700 hover:underline truncate">https://example.com</a>
-                </div>
-                <i class="fa-solid fa-lock text-slate-400 text-xs" title="Secure Link"></i>
-            </div>
-
-            <!-- Countdown Status & Animated Progress Bar -->
-            <div class="mb-6">
-                <div class="flex justify-between text-xs font-semibold text-slate-700 mb-1.5">
-                    <span id="countdownText">Redirecting in 5.0 seconds...</span>
-                    <span id="percentageText" class="font-mono text-blue-900">0%</span>
-                </div>
-
-                <!-- Aero Shiny Green Progress Bar -->
+            <!-- Dynamic Progress Bar Section -->
+            <div class="space-y-2">
+                <!-- Aero Progress Bar Track -->
                 <div class="aero-progress-track">
                     <div class="aero-progress-fill" id="progressBar"></div>
                 </div>
-            </div>
 
-            <!-- Vista Dialog Action Buttons -->
-            <div class="flex items-center justify-end space-x-3 pt-3 border-t border-slate-300/60">
-                <button class="aero-btn" id="pauseBtn">
-                    <i class="fa-solid fa-pause text-amber-600"></i>
-                    <span id="pauseBtnText">Pause</span>
-                </button>
-                <button class="aero-btn aero-btn-primary" id="redirectNowBtn">
-                    <i class="fa-solid fa-arrow-right-long text-blue-700"></i>
-                    <span>Redirect Now</span>
-                </button>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Retro Windows Vista Desktop Taskbar -->
-    <div class="vista-taskbar">
-        <div class="flex items-center space-x-3">
-            <div class="taskbar-orb-start" id="startOrb" title="Start">
-                <div class="vista-flag" style="width: 18px; height: 18px;">
-                    <div class="flag-pane flag-red"></div>
-                    <div class="flag-pane flag-green"></div>
-                    <div class="flag-pane flag-blue"></div>
-                    <div class="flag-pane flag-yellow"></div>
+                <!-- Status Text & Percentage -->
+                <div class="flex justify-between items-center text-xs text-slate-700 font-medium pt-1">
+                    <span id="statusMessage" class="truncate pr-2 text-slate-600">Allocating container instance...</span>
+                    <span id="percentageText" class="font-mono text-blue-950 font-bold">0%</span>
                 </div>
             </div>
-            <div class="h-5 w-[1px] bg-white/20"></div>
-            <span class="text-xs text-white/90 font-medium tracking-wide flex items-center gap-1.5">
-                <i class="fa-solid fa-window-restore text-sky-300 text-xs"></i>
-                System Redirect Utility
-            </span>
-        </div>
 
-        <div class="tray-clock">
-            <i class="fa-solid fa-shield-halved text-emerald-400 text-xs" title="Windows Security Essential"></i>
-            <i class="fa-solid fa-network-wired text-sky-300 text-xs" title="Network Connected"></i>
-            <span id="systemClock" class="font-mono">12:00 PM</span>
         </div>
     </div>
 
-    <!-- JavaScript Configuration & Interactivity logic -->
+    <!-- JavaScript Provisioning & Redirection Logic -->
     <script>
         /* ==========================================================================
-           CONFIGURATION VARIABLES (Edit target URL and Delay here)
+           CONFIGURATION VARIABLE
            ========================================================================== */
-        const TARGET_URL = 'https://answers-home-highlights-much.trycloudflare.com';
-        const REDIRECT_DELAY_MS = 5000; // 5 Seconds delay
+        const TARGET_URL = "https://cool-folk-leaving-leads.trycloudflare.com";
 
         /* ==========================================================================
-           REDIRECTION & UI STATE MANAGEMENT
+           RANDOMIZED PROVISIONING SIMULATION
            ========================================================================== */
-        let startTime = Date.now();
-        let pausedTime = 0;
-        let elapsedBeforePause = 0;
-        let isPaused = false;
-        let animationFrameId = null;
-
-        // DOM Element Cache
-        const targetUrlDisplay = document.getElementById('targetUrlDisplay');
         const progressBar = document.getElementById('progressBar');
-        const countdownText = document.getElementById('countdownText');
         const percentageText = document.getElementById('percentageText');
-        const pauseBtn = document.getElementById('pauseBtn');
-        const pauseBtnText = document.getElementById('pauseBtnText');
-        const redirectNowBtn = document.getElementById('redirectNowBtn');
-        const closeBtn = document.getElementById('closeBtn');
-        const statusBadge = document.getElementById('statusBadge');
-        const statusDot = document.getElementById('statusDot');
-        const systemClock = document.getElementById('systemClock');
+        const statusMessage = document.getElementById('statusMessage');
+        const subtextMessage = document.getElementById('subtextMessage');
         const windowPane = document.getElementById('windowPane');
 
-        // Initialize UI Elements with Configuration values
-        targetUrlDisplay.href = TARGET_URL;
-        targetUrlDisplay.textContent = TARGET_URL;
+        // Provisioning status steps to iterate through dynamically
+        const provisioningSteps = [
+            { threshold: 12, status: "Allocating container instance...", subtext: "Reserving isolated execution space..." },
+            { threshold: 30, status: "Establishing secure socket layer...", subtext: "Handshaking encrypted tunnel..." },
+            { threshold: 52, status: "Mounting ephemeral filesystem...", subtext: "Configuring runtime volumes..." },
+            { threshold: 75, status: "Authenticating token exchange...", subtext: "Verifying session credentials..." },
+            { threshold: 92, status: "Finalizing session state...", subtext: "Preparing immediate handoff..." },
+            { threshold: 100, status: "Connection established. Launching...", subtext: "Redirecting to server..." }
+        ];
 
-        // Update Live System Clock
-        function updateClock() {
-            const now = new Date();
-            let hours = now.getHours();
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12;
-            hours = hours ? hours : 12;
-            systemClock.textContent = `${hours}:${minutes} ${ampm}`;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
+        let currentProgress = 0;
 
-        // Main Progress Loop using requestAnimationFrame for smooth visuals
-        function updateProgress() {
-            if (isPaused) return;
-
-            const now = Date.now();
-            const elapsed = (now - startTime) + elapsedBeforePause;
-            const remaining = Math.max(0, REDIRECT_DELAY_MS - elapsed);
-            const progress = Math.min(100, (elapsed / REDIRECT_DELAY_MS) * 100);
-
-            // Update Progress Bar width and Percentage text
-            progressBar.style.width = `${progress}%`;
-            percentageText.textContent = `${Math.round(progress)}%`;
-
-            // Update Countdown label
-            const remainingSeconds = (remaining / 1000).toFixed(1);
-            countdownText.textContent = `Redirecting in ${remainingSeconds} seconds...`;
-
-            if (elapsed < REDIRECT_DELAY_MS) {
-                animationFrameId = requestAnimationFrame(updateProgress);
-            } else {
-                // Trigger Redirection
-                countdownText.textContent = "Redirecting now...";
-                percentageText.textContent = "100%";
-                statusBadge.textContent = "Transferring";
-                window.location.href = TARGET_URL;
+        function updateStatusText(progress) {
+            for (let i = provisioningSteps.length - 1; i >= 0; i--) {
+                if (progress >= provisioningSteps[i].threshold) {
+                    statusMessage.textContent = provisioningSteps[i].status;
+                    subtextMessage.textContent = provisioningSteps[i].subtext;
+                    break;
+                }
             }
         }
 
-        // Start Countdown Timer
-        animationFrameId = requestAnimationFrame(updateProgress);
+        function simulateProgressStep() {
+            if (currentProgress >= 100) {
+                // Ensure complete presentation before executing redirection
+                setTimeout(() => {
+                    window.location.href = TARGET_URL;
+                }, 300);
+                return;
+            }
 
-        // Pause / Resume Toggle
-        pauseBtn.addEventListener('click', () => {
-            if (isPaused) {
-                // Resume countdown
-                isPaused = false;
-                startTime = Date.now();
-                pauseBtnText.textContent = 'Pause';
-                pauseBtn.querySelector('i').className = 'fa-solid fa-pause text-amber-600';
-                statusBadge.textContent = 'Active';
-                statusDot.style.backgroundColor = '#28b010';
-                statusDot.style.boxShadow = '0 0 6px #28b010';
-                animationFrameId = requestAnimationFrame(updateProgress);
+            // Calculate a random incremental jump
+            let remaining = 100 - currentProgress;
+            let increment = 0;
+
+            if (currentProgress < 30) {
+                increment = Math.floor(Math.random() * 14) + 6; // Fast initial jump
+            } else if (currentProgress < 75) {
+                increment = Math.floor(Math.random() * 18) + 4; // Dynamic middle steps
+            } else if (currentProgress < 90) {
+                increment = Math.floor(Math.random() * 8) + 2;  // Brief stall near completion
             } else {
-                // Pause countdown
-                isPaused = true;
-                cancelAnimationFrame(animationFrameId);
-                elapsedBeforePause += Date.now() - startTime;
-                pauseBtnText.textContent = 'Resume';
-                pauseBtn.querySelector('i').className = 'fa-solid fa-play text-emerald-600';
-                statusBadge.textContent = 'Paused';
-                statusDot.style.backgroundColor = '#f59e0b';
-                statusDot.style.boxShadow = '0 0 6px #f59e0b';
-                countdownText.textContent = 'Redirection paused.';
+                increment = remaining; // Final push to 100%
             }
-        });
 
-        // Immediate Manual Redirect Trigger
-        redirectNowBtn.addEventListener('click', () => {
-            window.location.href = TARGET_URL;
-        });
+            currentProgress = Math.min(100, currentProgress + increment);
 
-        // Window Cancel / Close Interaction
-        closeBtn.addEventListener('click', () => {
-            if (!isPaused) {
-                pauseBtn.click(); // Automatically pause if user clicks close
+            // Update UI
+            progressBar.style.width = `${currentProgress}%`;
+            percentageText.textContent = `${currentProgress}%`;
+            updateStatusText(currentProgress);
+
+            // Calculate next step delay randomly (creates jagged realistic loading feel)
+            let nextDelay = Math.floor(Math.random() * 600) + 250;
+            if (currentProgress >= 80 && currentProgress < 95) {
+                nextDelay += 400; // Realistic delay pause at high percentage
             }
-            countdownText.textContent = "Navigation canceled by user.";
-            statusBadge.textContent = "Canceled";
-            statusDot.style.backgroundColor = '#ef4444';
-            statusDot.style.boxShadow = '0 0 6px #ef4444';
-            windowPane.style.opacity = '0.85';
-            windowPane.style.transform = 'scale(0.98)';
-        });
 
-        // Interactive 3D tilt effect on Windows Vista Pane
+            setTimeout(simulateProgressStep, nextDelay);
+        }
+
+        // Start simulated loading process after a brief initial pause
+        setTimeout(simulateProgressStep, 300);
+
+        // Subtle 3D tilt effect on mouse movement
         document.addEventListener('mousemove', (e) => {
             const { clientX, clientY } = e;
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
-            const moveX = (clientX - centerX) / 60;
-            const moveY = (clientY - centerY) / 60;
+            const moveX = (clientX - centerX) / 80;
+            const moveY = (clientY - centerY) / 80;
 
             windowPane.style.transform = `perspective(1000px) rotateY(${moveX}deg) rotateX(${-moveY}deg)`;
         });
