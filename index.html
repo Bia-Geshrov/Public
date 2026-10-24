@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Vista - Navigation Redirect</title>
+    <!-- Tailwind CSS for utility styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for classic Windows-like icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==========================================================================
+           Frutiger Aero & Windows Vista Skeuomorphic / Pseudomorphic Stylesheet
+           ========================================================================== */
+
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
+
+        * {
+            font-family: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Fullscreen Vivid Aurora Background */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #061122;
+            position: relative;
+        }
+
+        /* Dynamic Animated Aurora Backdrop with Multi-stop Gradients */
+        .aurora-container {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(2, 172, 230, 0.85) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(0, 220, 130, 0.75) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(13, 80, 180, 0.9) 0%, transparent 65%),
+                linear-gradient(135deg, #021e38 0%, #063968 35%, #0d607a 65%, #052c1e 100%);
+            background-size: 200% 200%;
+            animation: auroraGlow 18s ease-in-out infinite alternate;
+        }
+
+        /* Swirling glowing ribbons */
+        .aurora-ribbon-1 {
+            position: absolute;
+            top: -20%;
+            left: -10%;
+            width: 120%;
+            height: 80%;
+            background: radial-gradient(ellipse at center, rgba(120, 255, 214, 0.35) 0%, rgba(0, 162, 255, 0.25) 40%, transparent 70%);
+            transform: rotate(-12deg) skewX(-20deg);
+            filter: blur(40px);
+            animation: floatRibbon 14s ease-in-out infinite alternate;
+        }
+
+        .aurora-ribbon-2 {
+            position: absolute;
+            bottom: -20%;
+            right: -10%;
+            width: 110%;
+            height: 70%;
+            background: radial-gradient(ellipse at center, rgba(0, 180, 255, 0.4) 0%, rgba(0, 255, 128, 0.2) 50%, transparent 75%);
+            transform: rotate(15deg) skewX(15deg);
+            filter: blur(50px);
+            animation: floatRibbon2 16s ease-in-out infinite alternate;
+        }
+
+        /* Reflective Floor Reflection Grid/Shelf Effect */
+        .reflective-floor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 35vh;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.01) 30%, rgba(0,0,0,0.4) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        /* ==========================================================================
+           ULTRA AERO GLASS PANE
+           ========================================================================== */
+
+        .aero-window {
+            position: relative;
+            z-index: 10;
+            width: 92%;
+            max-width: 580px;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.42) 0%,
+                rgba(210, 235, 255, 0.22) 25%,
+                rgba(150, 200, 240, 0.15) 50%,
+                rgba(255, 255, 255, 0.28) 100%
+            );
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            outline: 1px solid rgba(0, 0, 0, 0.35);
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.4) inset,
+                0 25px 60px rgba(0, 10, 30, 0.65),
+                0 10px 20px rgba(0, 0, 0, 0.4),
+                0 0 35px rgba(0, 180, 255, 0.35);
+            backdrop-filter: blur(28px) saturate(210%);
+            -webkit-backdrop-filter: blur(28px) saturate(210%);
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+        }
+
+        /* Multi-layered Glass Reflection Overlay Across Titlebar and Pane */
+        .aero-window::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 200%;
+            height: 55%;
+            background: linear-gradient(
+                165deg,
+                rgba(255, 255, 255, 0.55) 0%,
+                rgba(255, 255, 255, 0.25) 30%,
+                rgba(255, 255, 255, 0.0) 50%
+            );
+            transform: rotate(-5deg);
+            pointer-events: none;
+            z-index: 12;
+        }
+
+        .aero-window::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at top left, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 11;
+        }
+
+        /* Window Titlebar Header */
+        .aero-titlebar {
+            height: 38px;
+            padding: 0 10px 0 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0.5) 0%,
+                rgba(230, 245, 255, 0.25) 48%,
+                rgba(170, 210, 240, 0.15) 49%,
+                rgba(220, 240, 255, 0.35) 100%
+            );
+            position: relative;
+            z-index: 15;
+        }
+
+        .window-title {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 13px;
+            text-shadow:
+                0 0 6px rgba(0, 130, 255, 0.9),
+                0 0 12px rgba(0, 130, 255, 0.6),
+                1px 1px 2px rgba(0, 0, 0, 0.8);
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Glass Windows Window Control Buttons */
+        .window-controls {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .win-btn {
+            width: 28px;
+            height: 19px;
+            border-radius: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            color: #ffffff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.7);
+            transition: all 0.15s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .win-btn-min, .win-btn-max {
+            background: linear-gradient(
+                to bottom,
+                rgba(220, 235, 250, 0.8) 0%,
+                rgba(170, 200, 230, 0.5) 45%,
+                rgba(120, 160, 200, 0.6) 46%,
+                rgba(190, 220, 245, 0.8) 100%
+            );
+        }
+
+        .win-btn-min:hover, .win-btn-max:hover {
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0.9) 0%,
+                rgba(190, 225, 255, 0.7) 45%,
+                rgba(140, 190, 240, 0.8) 46%,
+                rgba(220, 245, 255, 0.9) 100%
+            );
+            box-shadow: 0 0 8px rgba(0, 160, 255, 0.8);
+        }
+
+        .win-btn-close {
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 170, 160, 0.85) 0%,
+                rgba(230, 90, 80, 0.7) 45%,
+                rgba(190, 30, 20, 0.8) 46%,
+                rgba(240, 120, 110, 0.85) 100%
+            );
+            border-color: rgba(255, 200, 200, 0.8);
+        }
+
+        .win-btn-close:hover {
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 190, 180, 0.95) 0%,
+                rgba(250, 60, 50, 0.85) 45%,
+                rgba(220, 10, 0, 0.9) 46%,
+                rgba(255, 140, 130, 0.95) 100%
+            );
+            box-shadow: 0 0 10px rgba(255, 50, 50, 0.8);
+        }
+
+        /* Window Content Inner Body */
+        .aero-body {
+            padding: 24px 28px;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0.75) 0%,
+                rgba(240, 248, 255, 0.65) 50%,
+                rgba(225, 238, 250, 0.75) 100%
+            );
+            position: relative;
+            z-index: 15;
+            border-top: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.9);
+        }
+
+        /* Windows Vista Orb Icon Holder */
+        .vista-orb {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 25%, #ffffff 0%, #43b1f5 25%, #085da2 65%, #022046 100%);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow:
+                0 0 0 1px rgba(0, 0, 0, 0.4),
+                0 4px 12px rgba(0, 0, 0, 0.35),
+                0 0 18px rgba(0, 160, 255, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        /* Orb Gloss Overlay */
+        .vista-orb::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 5px;
+            right: 5px;
+            height: 24px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.1) 100%);
+            border-radius: 50% 50% 40% 40%;
+        }
+
+        /* Vista Windows Four Color Flag SVG inside Orb */
+        .vista-flag {
+            width: 26px;
+            height: 26px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            transform: rotate(-4deg) skewX(-4deg);
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+            position: relative;
+            z-index: 2;
+        }
+
+        .flag-pane {
+            border-radius: 1px 3px 1px 3px;
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.6);
+        }
+        .flag-red { background: linear-gradient(135deg, #ff6b52, #e02000); }
+        .flag-green { background: linear-gradient(135deg, #8ae639, #4cb000); }
+        .flag-blue { background: linear-gradient(135deg, #3cb0f5, #0066cc); }
+        .flag-yellow { background: linear-gradient(135deg, #ffdc42, #e69d00); }
+
+        /* ABSOLUTE GRADIENT AERO BUTTONS */
+        .aero-btn {
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0.95) 0%,
+                rgba(235, 243, 253, 0.85) 48%,
+                rgba(195, 218, 242, 0.9) 49%,
+                rgba(220, 236, 252, 0.95) 100%
+            );
+            border: 1px solid #707070;
+            border-radius: 3px;
+            padding: 6px 18px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #1e395b;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.8) inset,
+                0 1px 3px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            outline: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .aero-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.1) 100%);
+            pointer-events: none;
+        }
+
+        .aero-btn:hover {
+            border-color: #3c7fb1;
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.9) inset,
+                0 0 8px rgba(60, 127, 177, 0.6),
+                0 1px 3px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 1) 0%,
+                rgba(240, 247, 255, 0.9) 48%,
+                rgba(210, 232, 255, 0.95) 49%,
+                rgba(230, 244, 255, 1) 100%
+            );
+            color: #000000;
+        }
+
+        .aero-btn:active {
+            background: linear-gradient(
+                to bottom,
+                rgba(200, 220, 240, 0.9) 0%,
+                rgba(170, 200, 230, 0.9) 100%
+            );
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+            transform: translateY(1px);
+        }
+
+        .aero-btn-primary {
+            border-color: #2c628b;
+            background: linear-gradient(
+                to bottom,
+                rgba(235, 247, 255, 0.95) 0%,
+                rgba(180, 225, 255, 0.9) 48%,
+                rgba(110, 185, 240, 0.95) 49%,
+                rgba(160, 215, 255, 1) 100%
+            );
+        }
+
+        /* HIGH-GLOSS VISTA PROGRESS BAR */
+        .aero-progress-track {
+            height: 20px;
+            background: linear-gradient(
+                to bottom,
+                rgba(180, 180, 180, 0.7) 0%,
+                rgba(220, 220, 220, 0.8) 30%,
+                rgba(245, 245, 245, 0.9) 100%
+            );
+            border: 1px solid #686868;
+            border-radius: 3px;
+            padding: 1px;
+            box-shadow:
+                inset 0 1px 3px rgba(0, 0, 0, 0.4),
+                0 1px 0 rgba(255, 255, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .aero-progress-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 2px;
+            background: linear-gradient(
+                to bottom,
+                #b2f59f 0%,
+                #62e03c 45%,
+                #28b010 46%,
+                #7ce85d 100%
+            );
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                0 0 8px rgba(50, 205, 50, 0.6);
+            transition: width 0.1s linear;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated Vista Diagonal Glass Stripe Overlay on Progress Bar */
+        .aero-progress-fill::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(
+                -45deg,
+                rgba(255, 255, 255, 0.4) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.4) 50%,
+                rgba(255, 255, 255, 0.4) 75%,
+                transparent 75%,
+                transparent
+            );
+            background-size: 24px 24px;
+            animation: moveStripes 1s linear infinite;
+        }
+
+        /* Glass Pill Badges */
+        .glass-pill {
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.6) 0%,
+                rgba(200, 225, 250, 0.3) 100%
+            );
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            padding: 2px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #0c4373;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255,255,255,0.8);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Bottom Taskbar Nostalgia Element */
+        .vista-taskbar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 38px;
+            background: linear-gradient(
+                to bottom,
+                rgba(10, 25, 45, 0.8) 0%,
+                rgba(2, 10, 20, 0.85) 50%,
+                rgba(0, 0, 0, 0.9) 100%
+            );
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 12px;
+            z-index: 20;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+        }
+
+        .taskbar-orb-start {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 25%, #ffffff 0%, #3ca0e6 30%, #054b88 70%, #011228 100%);
+            border: 1.5px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 8px rgba(0, 150, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-top: -6px;
+            transition: all 0.2s;
+        }
+
+        .taskbar-orb-start:hover {
+            box-shadow: 0 0 15px rgba(0, 190, 255, 1);
+            transform: scale(1.05);
+        }
+
+        .tray-clock {
+            color: #ffffff;
+            font-size: 11px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Animations */
+        @keyframes auroraGlow {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        @keyframes floatRibbon {
+            0% { transform: rotate(-12deg) skewX(-20deg) translateY(0); }
+            100% { transform: rotate(-8deg) skewX(-15deg) translateY(30px); }
+        }
+
+        @keyframes floatRibbon2 {
+            0% { transform: rotate(15deg) skewX(15deg) translateY(0); }
+            100% { transform: rotate(10deg) skewX(20deg) translateY(-35px); }
+        }
+
+        @keyframes moveStripes {
+            0% { background-position: 0 0; }
+            100% { background-position: 24px 0; }
+        }
+
+        .pulsing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #28b010;
+            border-radius: 50%;
+            box-shadow: 0 0 6px #28b010;
+            animation: pulse 1.2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* URL Text Box Box Shadow */
+        .url-box {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid #7f9db9;
+            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2);
+            border-radius: 2px;
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Dynamic Aurora Frutiger Background -->
+    <div class="aurora-container">
+        <div class="aurora-ribbon-1"></div>
+        <div class="aurora-ribbon-2"></div>
+    </div>
+
+    <!-- Reflective Shelf Ground Effect -->
+    <div class="reflective-floor"></div>
+
+    <!-- Main Windows Vista Aero Glass Dialogue Window -->
+    <div class="aero-window" id="windowPane">
+
+        <!-- Window Titlebar -->
+        <div class="aero-titlebar">
+            <div class="window-title">
+                <i class="fa-solid fa-compass text-sky-200"></i>
+                <span>Windows Internet Navigation - Redirection</span>
+            </div>
+            <div class="window-controls">
+                <button class="win-btn win-btn-min" title="Minimize"><i class="fa-solid fa-minus"></i></button>
+                <button class="win-btn win-btn-max" title="Maximize"><i class="fa-solid fa-square"></i></button>
+                <button class="win-btn win-btn-close" id="closeBtn" title="Close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
+
+        <!-- Window Inner Body Content -->
+        <div class="aero-body">
+
+            <div class="flex items-start space-x-4 mb-5">
+                <!-- Glowing Vista Orb Logo -->
+                <div class="vista-orb">
+                    <div class="vista-flag">
+                        <div class="flag-pane flag-red"></div>
+                        <div class="flag-pane flag-green"></div>
+                        <div class="flag-pane flag-blue"></div>
+                        <div class="flag-pane flag-yellow"></div>
+                    </div>
+                </div>
+
+                <div class="flex-1">
+                    <div class="flex items-center justify-between mb-1">
+                        <h2 class="text-lg font-bold text-slate-800 tracking-tight leading-tight">Navigating to Remote Location</h2>
+                        <span class="glass-pill">
+                            <span class="pulsing-dot" id="statusDot"></span>
+                            <span id="statusBadge">Active</span>
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Windows is preparing to transfer your browser session to the target address configured below. Please wait while the connection establishes.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Target URL Display Box -->
+            <div class="mb-5 p-2.5 url-box flex items-center justify-between text-xs text-slate-700">
+                <div class="flex items-center space-x-2 truncate pr-2">
+                    <i class="fa-solid fa-globe text-sky-600"></i>
+                    <span class="font-semibold text-slate-500">Destination:</span>
+                    <a id="targetUrlDisplay" href="#" class="font-mono text-blue-700 hover:underline truncate">https://example.com</a>
+                </div>
+                <i class="fa-solid fa-lock text-slate-400 text-xs" title="Secure Link"></i>
+            </div>
+
+            <!-- Countdown Status & Animated Progress Bar -->
+            <div class="mb-6">
+                <div class="flex justify-between text-xs font-semibold text-slate-700 mb-1.5">
+                    <span id="countdownText">Redirecting in 5.0 seconds...</span>
+                    <span id="percentageText" class="font-mono text-blue-900">0%</span>
+                </div>
+
+                <!-- Aero Shiny Green Progress Bar -->
+                <div class="aero-progress-track">
+                    <div class="aero-progress-fill" id="progressBar"></div>
+                </div>
+            </div>
+
+            <!-- Vista Dialog Action Buttons -->
+            <div class="flex items-center justify-end space-x-3 pt-3 border-t border-slate-300/60">
+                <button class="aero-btn" id="pauseBtn">
+                    <i class="fa-solid fa-pause text-amber-600"></i>
+                    <span id="pauseBtnText">Pause</span>
+                </button>
+                <button class="aero-btn aero-btn-primary" id="redirectNowBtn">
+                    <i class="fa-solid fa-arrow-right-long text-blue-700"></i>
+                    <span>Redirect Now</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Retro Windows Vista Desktop Taskbar -->
+    <div class="vista-taskbar">
+        <div class="flex items-center space-x-3">
+            <div class="taskbar-orb-start" id="startOrb" title="Start">
+                <div class="vista-flag" style="width: 18px; height: 18px;">
+                    <div class="flag-pane flag-red"></div>
+                    <div class="flag-pane flag-green"></div>
+                    <div class="flag-pane flag-blue"></div>
+                    <div class="flag-pane flag-yellow"></div>
+                </div>
+            </div>
+            <div class="h-5 w-[1px] bg-white/20"></div>
+            <span class="text-xs text-white/90 font-medium tracking-wide flex items-center gap-1.5">
+                <i class="fa-solid fa-window-restore text-sky-300 text-xs"></i>
+                System Redirect Utility
+            </span>
+        </div>
+
+        <div class="tray-clock">
+            <i class="fa-solid fa-shield-halved text-emerald-400 text-xs" title="Windows Security Essential"></i>
+            <i class="fa-solid fa-network-wired text-sky-300 text-xs" title="Network Connected"></i>
+            <span id="systemClock" class="font-mono">12:00 PM</span>
+        </div>
+    </div>
+
+    <!-- JavaScript Configuration & Interactivity logic -->
+    <script>
+        /* ==========================================================================
+           CONFIGURATION VARIABLES (Edit target URL and Delay here)
+           ========================================================================== */
+        const TARGET_URL = 'https://nominations-linda-suppose-ruby.trycloudflare.com';
+        const REDIRECT_DELAY_MS = 5000; // 5 Seconds delay
+
+        /* ==========================================================================
+           REDIRECTION & UI STATE MANAGEMENT
+           ========================================================================== */
+        let startTime = Date.now();
+        let pausedTime = 0;
+        let elapsedBeforePause = 0;
+        let isPaused = false;
+        let animationFrameId = null;
+
+        // DOM Element Cache
+        const targetUrlDisplay = document.getElementById('targetUrlDisplay');
+        const progressBar = document.getElementById('progressBar');
+        const countdownText = document.getElementById('countdownText');
+        const percentageText = document.getElementById('percentageText');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const pauseBtnText = document.getElementById('pauseBtnText');
+        const redirectNowBtn = document.getElementById('redirectNowBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const statusBadge = document.getElementById('statusBadge');
+        const statusDot = document.getElementById('statusDot');
+        const systemClock = document.getElementById('systemClock');
+        const windowPane = document.getElementById('windowPane');
+
+        // Initialize UI Elements with Configuration values
+        targetUrlDisplay.href = TARGET_URL;
+        targetUrlDisplay.textContent = TARGET_URL;
+
+        // Update Live System Clock
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            systemClock.textContent = `${hours}:${minutes} ${ampm}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Main Progress Loop using requestAnimationFrame for smooth visuals
+        function updateProgress() {
+            if (isPaused) return;
+
+            const now = Date.now();
+            const elapsed = (now - startTime) + elapsedBeforePause;
+            const remaining = Math.max(0, REDIRECT_DELAY_MS - elapsed);
+            const progress = Math.min(100, (elapsed / REDIRECT_DELAY_MS) * 100);
+
+            // Update Progress Bar width and Percentage text
+            progressBar.style.width = `${progress}%`;
+            percentageText.textContent = `${Math.round(progress)}%`;
+
+            // Update Countdown label
+            const remainingSeconds = (remaining / 1000).toFixed(1);
+            countdownText.textContent = `Redirecting in ${remainingSeconds} seconds...`;
+
+            if (elapsed < REDIRECT_DELAY_MS) {
+                animationFrameId = requestAnimationFrame(updateProgress);
+            } else {
+                // Trigger Redirection
+                countdownText.textContent = "Redirecting now...";
+                percentageText.textContent = "100%";
+                statusBadge.textContent = "Transferring";
+                window.location.href = TARGET_URL;
+            }
+        }
+
+        // Start Countdown Timer
+        animationFrameId = requestAnimationFrame(updateProgress);
+
+        // Pause / Resume Toggle
+        pauseBtn.addEventListener('click', () => {
+            if (isPaused) {
+                // Resume countdown
+                isPaused = false;
+                startTime = Date.now();
+                pauseBtnText.textContent = 'Pause';
+                pauseBtn.querySelector('i').className = 'fa-solid fa-pause text-amber-600';
+                statusBadge.textContent = 'Active';
+                statusDot.style.backgroundColor = '#28b010';
+                statusDot.style.boxShadow = '0 0 6px #28b010';
+                animationFrameId = requestAnimationFrame(updateProgress);
+            } else {
+                // Pause countdown
+                isPaused = true;
+                cancelAnimationFrame(animationFrameId);
+                elapsedBeforePause += Date.now() - startTime;
+                pauseBtnText.textContent = 'Resume';
+                pauseBtn.querySelector('i').className = 'fa-solid fa-play text-emerald-600';
+                statusBadge.textContent = 'Paused';
+                statusDot.style.backgroundColor = '#f59e0b';
+                statusDot.style.boxShadow = '0 0 6px #f59e0b';
+                countdownText.textContent = 'Redirection paused.';
+            }
+        });
+
+        // Immediate Manual Redirect Trigger
+        redirectNowBtn.addEventListener('click', () => {
+            window.location.href = TARGET_URL;
+        });
+
+        // Window Cancel / Close Interaction
+        closeBtn.addEventListener('click', () => {
+            if (!isPaused) {
+                pauseBtn.click(); // Automatically pause if user clicks close
+            }
+            countdownText.textContent = "Navigation canceled by user.";
+            statusBadge.textContent = "Canceled";
+            statusDot.style.backgroundColor = '#ef4444';
+            statusDot.style.boxShadow = '0 0 6px #ef4444';
+            windowPane.style.opacity = '0.85';
+            windowPane.style.transform = 'scale(0.98)';
+        });
+
+        // Interactive 3D tilt effect on Windows Vista Pane
+        document.addEventListener('mousemove', (e) => {
+            const { clientX, clientY } = e;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const moveX = (clientX - centerX) / 60;
+            const moveY = (clientY - centerY) / 60;
+
+            windowPane.style.transform = `perspective(1000px) rotateY(${moveX}deg) rotateX(${-moveY}deg)`;
+        });
+    </script>
+</body>
+</html>
