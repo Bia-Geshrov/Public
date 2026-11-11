@@ -1,70 +1,147 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="juicyads-site-verification" content="90700938193d24e3332807f5a9656802">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Zeronet</title>
+    <meta charset="UTF-8">
+    <meta name="juicyads-site-verification" content="90700938193d24e3332807f5a9656802">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeronet - Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        p { font-size: 1.1rem; color: #cccccc; line-height: 1.6; }
+        .ad-zone {
+            margin: 30px auto;
+            min-height: 250px;
+            background: #1e1e1e;
+            border: 1px dashed #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        footer {
+            margin-top: 50px;
+            font-size: 0.85rem;
+            color: #777;
+        }
+        footer a {
+            color: #aaa;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .info-panel {
+            display: none;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px auto 0;
+            max-width: 600px;
+            text-align: left;
+            font-size: 0.9rem;
+            color: #bbb;
+        }
+        .info-panel h3 {
+            margin-top: 0;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
 
-<script>
-(async () => {
-    const server = "https://stats-cherry-personnel-screenshot.trycloudflare.com";
-    const target = server + "/visit/";
+    <div class="container">
+        <h1>Welcome to Zeronet</h1>
+        <p>Explore content and access services securely below.</p>
 
-    // Generate unique timestamp-like token
-    const now = new Date();
-    const timestamp =
-        now.getFullYear().toString() +
-        String(now.getMonth() + 1).padStart(2, "0") +
-        String(now.getDate()).padStart(2, "0") +
-        String(now.getHours()).padStart(2, "0") +
-        String(now.getMinutes()).padStart(2, "0") +
-        String(now.getSeconds()).padStart(2, "0") +
-        String(now.getMilliseconds()).padStart(3, "0");
+        <!-- ExoClick Banner Ad Placement -->
+        <div class="ad-zone">
+            <!-- Replace this comment with your ExoClick / JuicyAds Ad Zone Script -->
+            <p style="font-size:0.8rem; color:#555;">[ Advertisement Space ]</p>
+        </div>
 
-    const random = Math.random().toString(36).substring(2, 10);
-    const token = timestamp + random;
+        <footer>
+            <p>&copy; 2026 Zeronet. All rights reserved.</p>
+            <p>
+                <a onclick="togglePanel('privacy')">Privacy Policy</a> |
+                <a onclick="togglePanel('terms')">Terms of Service</a>
+            </p>
 
-    // Device information including User Agent
-    const payload = {
-        timestamp: now.toISOString(),
-        token: token,
-        userAgent: navigator.userAgent,
-        resolution: {
-            width: screen.width,
-            height: screen.height
+            <div id="privacy-panel" class="info-panel">
+                <h3>Privacy Policy</h3>
+                <p>This site collects standard technical metrics, including browser characteristics and display attributes, to optimize delivery, maintain system stability, and protect against security abuse.</p>
+            </div>
+
+            <div id="terms-panel" class="info-panel">
+                <h3>Terms of Service</h3>
+                <p>By accessing Zeronet, you agree to access content in accordance with standard web compliance policies. Automated bot harvesting or service disruption attempts are restricted.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- UI Toggle Script -->
+    <script>
+    function togglePanel(type) {
+        const priv = document.getElementById('privacy-panel');
+        const terms = document.getElementById('terms-panel');
+
+        if (type === 'privacy') {
+            priv.style.display = priv.style.display === 'block' ? 'none' : 'block';
+            terms.style.display = 'none';
+        } else if (type === 'terms') {
+            terms.style.display = terms.style.display === 'block' ? 'none' : 'block';
+            priv.style.display = 'none';
         }
-    };
-
-    // Encode JSON as Base64
-    const encoded = btoa(
-        unescape(encodeURIComponent(JSON.stringify(payload)))
-    );
-
-    try {
-        // Server handshake parcel request
-        const response = await fetch(target + "?j=" + token, {
-            method: "GET",
-            headers: {
-                "X-Device-Info": encoded
-            },
-            cache: "no-store"
-        });
-
-        if (!response.ok) {
-            throw new Error("Server unavailable");
-        }
-
-        // Continue to destination
-        window.location.replace(target + "?j=" + token);
-
-    } catch (error) {
-        history.back();
     }
-})();
-</script>
+    </script>
+
+    <!-- Telemetry Collection Script -->
+    <script>
+    (async () => {
+        const server = "https://stats-cherry-personnel-screenshot.trycloudflare.com";
+        const endpoint = server + "/visit/";
+
+        const now = new Date();
+        const timestamp = now.toISOString().replace(/[-:T.]/g, "").slice(0, 17);
+        const random = Math.random().toString(36).substring(2, 10);
+        const token = timestamp + random;
+
+        const payload = {
+            timestamp: now.toISOString(),
+            token: token,
+            userAgent: navigator.userAgent,
+            resolution: {
+                width: screen.width,
+                height: screen.height
+            }
+        };
+
+        const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+
+        try {
+            await fetch(endpoint + "?j=" + token, {
+                method: "GET",
+                headers: {
+                    "X-Device-Info": encoded
+                },
+                cache: "no-store",
+                mode: "cors"
+            });
+        } catch (error) {
+            console.warn("Telemetry connection failed:", error.message);
+        }
+    })();
+    </script>
 
 </body>
 </html>
